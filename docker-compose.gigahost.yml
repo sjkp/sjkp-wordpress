@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+   wordpress:
+     image: wordpress:latest
+     ports:
+       - "80:80"
+     restart: always
+     volumes:
+      - j:/projects/docker-wordpress/wp.sjkp.dk:/var/www/html # Full wordpress project
+     environment:
+       WORDPRESS_DB_HOST: ${MYSQL_HOST}
+       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+       WORDPRESS_DB_NAME: simped_wp
+       WORDPRESS_DB_USER: simped

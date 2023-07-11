@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+   wordpress:
+     image: wordpress:latest
+     ports:
+       - "80:80"
+     restart: always
+     volumes:
+      - ./wp.sjkp.dk:/var/www/html # Full wordpress project
+     environment:
+       WORDPRESS_DB_HOST: db
+       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+       WORDPRESS_DB_NAME: simped_wp
+       WORDPRESS_DB_USER: root
+   db:
+     image: mysql:8.0
+     cap_add:
+       - SYS_NICE
+     restart: always
+     environment:
+       - MYSQL_DATABASE=simped_wp
+       - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+     ports:
+       - '3306:3306'
+     volumes:
+       - db:/var/lib/mysql
+       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  db:
+    driver: local
