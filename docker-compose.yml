@@ -3,8 +3,9 @@ version: '2'
 services:
    wordpress:
      image: wordpress:latest
+     mem_limit: 300M
      ports:
-       - "80:80"
+       - "8080:80"
      restart: always
      volumes:
       - ./wp.sjkp.dk:/var/www/html # Full wordpress project
@@ -14,7 +15,8 @@ services:
        WORDPRESS_DB_NAME: simped_wp
        WORDPRESS_DB_USER: root
    db:
-     image: mysql:8.0
+     image: hsheth2/mysql-low-memory
+     mem_limit: 300M
      cap_add:
        - SYS_NICE
      restart: always
